@@ -4,7 +4,7 @@ import * as Renderers from './renderers';
 
 function main() {
     const config = Game.createGameConfig({ logging: true });
-    const state = Game.createInitialGameState(config, {});
+    const state = Game.createInitialGameState(config);
     const canvas = document.getElementById('game-canvas') as HTMLCanvasElement;
     const ctx = canvas.getContext('2d');
 
@@ -17,9 +17,11 @@ function main() {
     const systems: Systems.System[] = [
         // Core systems
         Systems.CoreGameStats(),
-        Systems.ScreenTransition(),
+        Systems.BrowserWindow(),
+        Systems.Input(),
 
         // Screens
+        Systems.ScreenTransition(),
         Systems.StartScreen(),
         Systems.GameScreen()
     ]
