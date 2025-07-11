@@ -13,6 +13,9 @@ export interface GameSystemState {
         width: number;
         height: number;
     }
+    keyboard: {
+        pressedKeys: string[]
+    }
 }
 
 export interface GameOperationState {

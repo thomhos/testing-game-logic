@@ -12,7 +12,7 @@ export function StartScreen(): System {
             // runs when the screen is requested but the out animation of the previous screen is not finished yet
             if(screenRequested(state, "start")) {
                 // create transitionInAnimationEntity with a Duration of 300ms if not already done
-                state._entities.push(
+                // state._entities.push(
                     // createEntity("startScreenAnimation", [
                     //     createComponent("screenAnimation", {
                     //         screen: "start",
@@ -21,22 +21,22 @@ export function StartScreen(): System {
                     //     }),
                     //     createComponent("renderMe")
                     // ])
-                );
-                console.log("Start screen requested");
+                // );
+                // console.log("Start screen requested");
             }
 
             if(transitionInRunning(state, "start")) {
                 // in-animation starting..
-                console.log("Start screen animating in");
+                // console.log("Start screen animating in");
             }
 
             if(transitionInDone(state, "start")) {
-                console.log("Start screen animating done");
+                // console.log("Start screen animating done");
             }
 
             if(regularUpdate(state, "start")) {
                 // Updating screen on normal state
-                console.log("start idling");
+                // console.log("start idling");
             }
 
             if(otherScreenRequested(state, "start")) {

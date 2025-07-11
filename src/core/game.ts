@@ -17,8 +17,11 @@ export function createInitialGameState(config: GameConfig, state?: Partial<GameS
             fps: 0, // This will be updated during the game loop
             timescale: state?._system?.timescale || 1,
             window: {
-                width: state?._system?.window.width || window.innerWidth || 800,
-                height: state?._system?.window.height || window.innerHeight || 600,
+                width: state?._system?.window.width || window.innerWidth,
+                height: state?._system?.window.height || window.innerHeight,
+            },
+            keyboard: {
+                pressedKeys: [],
             }
         },
         _screen: {
