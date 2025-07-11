@@ -2,16 +2,11 @@ import { Game, GameTypes } from './core';
 import * as Systems from './systems';
 import * as Renderers from './renderers';
 
-function main() {
+async function main() {
     const config = Game.createGameConfig({ logging: true });
     const state = Game.createInitialGameState(config);
-    const canvas = document.getElementById('game-canvas') as HTMLCanvasElement;
-    const ctx = canvas.getContext('2d');
 
-    if (!ctx) {
-        console.error('Failed to get canvas context');
-        return;
-    }
+    const app = await Renderers.setupRenderer();
 
     // Register systems
     const systems: Systems.System[] = [
@@ -22,6 +17,7 @@ function main() {
 
         // Screens
         Systems.ScreenTransition(),
+        Systems.LoadingScreen(),
         Systems.StartScreen(),
         Systems.GameScreen()
     ]
@@ -34,18 +30,15 @@ function main() {
     };
 
     const renderers: Renderers.Renderer[] = [
+        Renderers.LoadingScreenRenderer(),
         Renderers.StartScreenRenderer(),
     ];
 
     // Renderer runs every time it can (based on requestAnimationFrame)
     const renderer: GameTypes.GameRenderFn = (state) => {
-        if(canvas.width !== state._system.window.width || canvas.height !== state._system.window.height) {
-            Renderers.resizeCanvas(state, canvas);
-        }
-
-        Renderers.clearCanvas(state, ctx);
+        app.stage.removeChildren()
         for (const renderer of renderers) {
-            renderer.render(state, ctx);
+            renderer.render(state, app);
         }
     };
 

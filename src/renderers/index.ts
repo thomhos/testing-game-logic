@@ -1,4 +1,5 @@
 export * from "./types";
-export * from './render-utils';
+export * from './setup';
 
-export * from "./start-screen";
+export * from './loading-screen';
+export * from './start-screen';

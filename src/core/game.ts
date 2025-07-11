@@ -15,7 +15,7 @@ export function createInitialGameState(config: GameConfig, state?: Partial<GameS
             wallTimeInMs: state?._system?.wallTimeInMs || Date.now(),
             upTimeInMs: state?._system?.upTimeInMs || 0,
             fps: 0, // This will be updated during the game loop
-            timescale: state?._system?.timescale || 1,
+            frameDeltaTime: 0,
             window: {
                 width: state?._system?.window.width || window.innerWidth,
                 height: state?._system?.window.height || window.innerHeight,
@@ -25,15 +25,16 @@ export function createInitialGameState(config: GameConfig, state?: Partial<GameS
             }
         },
         _screen: {
-            current: state?._screen?.current || 'initialising',
-            next: state?._screen?.next || 'start',
+            current: state?._screen?.current || 'loading',
+            next: state?._screen?.next || undefined,
             transitionState: state?._screen?.transitionState || 'none',
             transitionProgress: state?._screen?.transitionProgress || 0,
         },
-        _entities: state?._entities || [],
         game: {
+            timescale: state?.game?.timescale || 1,
             paused: state?.game?.paused || false,
         },
+        entities: state?.entities || {},
         time: state?.time || 0,
         resources: state?.resources || 0,
     };
@@ -56,6 +57,7 @@ export function run(config: GameConfig, state: GameState, updater: GameUpdateFn,
         const timeSinceLastFrame = currentTime - lastTime; // Calculate the time since the last frame
 
         if (timeSinceLastFrame >= frameInterval) {
+            state._system.frameDeltaTime = timeSinceLastFrame;
             updater(state)
             lastTime = currentTime - (timeSinceLastFrame % frameInterval);
         }
