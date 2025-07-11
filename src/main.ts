@@ -2,12 +2,17 @@ import { Game, GameTypes } from './core';;
 import * as Systems from './systems';
 
 function main() {
-    const config = Game.createGameConfig();
+    const config = Game.createGameConfig({ logging: true });
     const state = Game.createInitialGameState(config, {});
 
     // Register systems
     const systems: Systems.System[] = [
-        Systems.CoreGameStatsSystem()
+        // Core systems
+        Systems.CoreGameStatsSystem(),
+
+        // Screens
+        Systems.StartScreenSystem(),
+        Systems.GameScreenSystem()
     ]
 
     // Updater runs every frame (throttled to targetFrameRate)

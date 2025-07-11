@@ -20,6 +20,11 @@ export function createInitialGameState(config: GameConfig, state?: Partial<GameS
             timescale: state?._system?.timescale || 1,
             paused: state?._system?.paused || false
         },
+        _screen: {
+            current: state?._screen?.current || 'start',
+            previous: state?._screen?.previous || undefined,
+        },
+        _entities: state?._entities || [],
         time: state?.time || 0,
         resources: state?.resources || 0,
     };

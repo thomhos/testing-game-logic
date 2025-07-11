@@ -14,9 +14,17 @@ export interface GameSystemState {
     paused: boolean;        // Whether the game is paused
 }
 
+export type GameScreens = 'start' | 'game' | 'pause' | 'end';
+export type GameScreenState = {
+    current: GameScreens;
+    previous: GameScreens | undefined;
+}
+
 export interface GameState {
     _initialConfig: GameConfig
     _system: GameSystemState;
+    _screen: GameScreenState;
+    _entities: number[]
     time: number;
     resources: number;
 }
