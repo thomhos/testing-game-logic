@@ -1,1 +1,1 @@
-export * from './game-stats-system';
+export * from './game-stats';

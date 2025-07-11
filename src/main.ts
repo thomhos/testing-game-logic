@@ -1,18 +1,27 @@
-import { Game, GameTypes } from './core';;
+import { Game, GameTypes } from './core';
 import * as Systems from './systems';
+import * as Renderers from './renderers';
 
 function main() {
     const config = Game.createGameConfig({ logging: true });
     const state = Game.createInitialGameState(config, {});
+    const canvas = document.getElementById('game-canvas') as HTMLCanvasElement;
+    const ctx = canvas.getContext('2d');
+
+    if (!ctx) {
+        console.error('Failed to get canvas context');
+        return;
+    }
 
     // Register systems
     const systems: Systems.System[] = [
         // Core systems
-        Systems.CoreGameStatsSystem(),
+        Systems.CoreGameStats(),
+        Systems.ScreenTransition(),
 
         // Screens
-        Systems.StartScreenSystem(),
-        Systems.GameScreenSystem()
+        Systems.StartScreen(),
+        Systems.GameScreen()
     ]
 
     // Updater runs every frame (throttled to targetFrameRate)
@@ -22,19 +31,22 @@ function main() {
         }
     };
 
-    let lastSecond = 0;
+    const renderers: Renderers.Renderer[] = [
+        Renderers.StartScreenRenderer(),
+    ];
+
     // Renderer runs every time it can (based on requestAnimationFrame)
     const renderer: GameTypes.GameRenderFn = (state) => {
-        const currentSecond = Math.floor(state._system.upTimeInMs / 1000);
-        if (currentSecond !== lastSecond) {
-            const date = new Date(state._system.wallTimeInMs);
-            console.log(date.toLocaleString());
-            console.log("FPS: ", state._system.fps);
-            lastSecond = currentSecond;
+        if(canvas.width !== state._system.window.width || canvas.height !== state._system.window.height) {
+            Renderers.resizeCanvas(state, canvas);
+        }
+
+        Renderers.clearCanvas(state, ctx);
+        for (const renderer of renderers) {
+            renderer.render(state, ctx);
         }
     };
 
-    // Run game
     Game.run(config, state, updater, renderer)
 }
 

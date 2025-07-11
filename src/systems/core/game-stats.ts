@@ -1,6 +1,6 @@
 import { type System } from '../types';
 
-export function CoreGameStatsSystem(): System {
+export function CoreGameStats(): System {
     let frames: number[] = [];
 
     return {

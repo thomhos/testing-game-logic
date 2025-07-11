@@ -1,6 +1,4 @@
 export interface GameConfig {
-    width: number;
-    height: number;
     targetFps: number;
     logging: boolean;
 }
@@ -11,13 +9,22 @@ export interface GameSystemState {
     upTimeInMs: number;     // Time since the game started
     fps: number;            // Frames per second, updated during the game loop
     timescale: number;      // Multiplier for the game time
-    paused: boolean;        // Whether the game is paused
+    window: {
+        width: number;
+        height: number;
+    }
 }
 
-export type GameScreens = 'start' | 'game' | 'pause' | 'end';
+export interface GameOperationState {
+    paused: boolean;
+}
+
+export type GameScreens = 'initialising' | 'loading' | 'start' | 'game' | 'pause' | 'end';
 export type GameScreenState = {
     current: GameScreens;
-    previous: GameScreens | undefined;
+    next: GameScreens | undefined;
+    transitionState: 'none' | 'out' | 'in';
+    transitionProgress: number; // 0 to 1, where 0 is start and 1 is finished
 }
 
 export interface GameState {
@@ -25,6 +32,7 @@ export interface GameState {
     _system: GameSystemState;
     _screen: GameScreenState;
     _entities: number[]
+    game: GameOperationState;
     time: number;
     resources: number;
 }

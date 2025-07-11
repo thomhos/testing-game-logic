@@ -1,19 +1,44 @@
 import type { GameScreens, GameState } from "../../core/types"
 
-export function isStarting(state: GameState, screen: GameScreens): boolean {
-    return state._screen.current === screen && state._screen.previous !== screen;
+export function inactive(state: GameState, screen: GameScreens): boolean {
+    return state._screen.current !== screen && !state._screen.next;
 }
 
-export function isUpdating(state: GameState, screen: GameScreens): boolean {
-    return state._screen.previous === screen && state._screen.current === screen;
+export function screenRequested(state: GameState, screen: GameScreens): boolean {
+    return state._screen.current !== screen 
+        && state._screen.next === screen;
 }
 
-export function isEnding(state: GameState, screen: GameScreens): boolean {
-    return state._screen.previous === screen && state._screen.current !== screen;
+export function transitionInRunning(state: GameState, screen: GameScreens): boolean {
+    return state._screen.current === screen 
+        && state._screen.transitionState === 'in'
+        && state._screen.transitionProgress < 1;
 }
 
-export function updateScreenState(state: GameState, screen: GameScreens): void {
-    if (state._screen.previous !== screen) {
-        state._screen.previous = state._screen.current;
-    }
+export function transitionInDone(state: GameState, screen: GameScreens): boolean {
+    return state._screen.current === screen 
+        && state._screen.transitionState === 'in'
+        && state._screen.transitionProgress >= 1;
 }
+
+export function regularUpdate(state: GameState, screen: GameScreens): boolean {
+    return state._screen.current === screen && state._screen.transitionState === 'none';
+}
+
+export function transitionOutRunning(state: GameState, screen: GameScreens): boolean {
+    return state._screen.current === screen 
+        && state._screen.transitionState === 'out'
+        && state._screen.transitionProgress < 1;
+}
+
+// export function transitionOutDone(state: GameState, screen: GameScreens): boolean {
+//     return state._screen.current === screen 
+//         && state._screen.transitionState === 'out'
+//         && state._screen.transitionProgress >= 1;
+// }
+
+export function otherScreenRequested(state: GameState, screen: GameScreens): boolean {
+    return state._screen.current === screen 
+        && state._screen.next !== screen;
+}
+
