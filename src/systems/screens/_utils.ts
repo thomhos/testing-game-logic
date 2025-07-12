@@ -1,4 +1,4 @@
-import type { GameScreens, GameState } from "../../core/types"
+import type { GameScreens, GameState } from "../../core"
 
 export function inactive(state: GameState, screen: GameScreens): boolean {
     return state._screen.current !== screen && !state._screen.next;
@@ -31,11 +31,11 @@ export function transitionOutRunning(state: GameState, screen: GameScreens): boo
         && state._screen.transitionProgress < 1;
 }
 
-// export function transitionOutDone(state: GameState, screen: GameScreens): boolean {
-//     return state._screen.current === screen 
-//         && state._screen.transitionState === 'out'
-//         && state._screen.transitionProgress >= 1;
-// }
+export function transitionOutDone(state: GameState, screen: GameScreens): boolean {
+    return state._screen.current === screen 
+        && state._screen.transitionState === 'out'
+        && state._screen.transitionProgress >= 1;
+}
 
 export function otherScreenRequested(state: GameState, screen: GameScreens): boolean {
     return state._screen.current === screen 

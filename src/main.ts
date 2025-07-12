@@ -1,4 +1,4 @@
-import { Game, GameTypes } from './core';
+import * as Game from './core';
 import * as Systems from './systems';
 import * as Renderers from './renderers';
 
@@ -19,11 +19,11 @@ async function main() {
         Systems.ScreenTransition(),
         Systems.LoadingScreen(),
         Systems.StartScreen(),
-        Systems.GameScreen()
+        Systems.GameScreen(),
     ]
 
     // Updater runs every frame (throttled to targetFrameRate)
-    const updater: GameTypes.GameUpdateFn = (state) => {
+    const updater: Game.GameUpdateFn = (state) => {
         for (const system of systems) {
             system.update(state);
         }
@@ -35,7 +35,7 @@ async function main() {
     ];
 
     // Renderer runs every time it can (based on requestAnimationFrame)
-    const renderer: GameTypes.GameRenderFn = (state) => {
+    const renderer: Game.GameRenderFn = (state) => {
         app.stage.removeChildren()
         for (const renderer of renderers) {
             renderer.render(state, app);

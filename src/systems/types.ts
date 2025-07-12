@@ -1,4 +1,4 @@
-import { type GameUpdateFn } from '../core/types';
+import type { GameUpdateFn } from '../core';
 
 export interface System {
     update: GameUpdateFn;

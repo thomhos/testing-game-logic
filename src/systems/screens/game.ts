@@ -1,6 +1,6 @@
-import type { GameScreens } from '../../core/types';
+import type { GameScreens } from '../../core';
 import { type System } from '../types';
-import { inactive } from './screen-utils';
+import { inactive } from './_utils';
 
 export function GameScreen(): System {
     const screenName: GameScreens = "game";

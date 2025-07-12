@@ -38,15 +38,25 @@ export type GameScreenTransitionDurations = {
   };
 };
 
+// Base component interface - all components must extend this
 export interface Component {
-    [key: string]: any
+    readonly type: string; // Component type identifier
 }
 
-type Components = 'add'
+export interface EntityCreationOptions {
+    screen?: GameScreens;
+    name?: string;
+}
+
+export interface Entity {
+    id: string;
+    name?: string;
+    screen?: GameScreens;
+    components: Map<string, Component>;
+}
 
 export interface EntityMap {
-    [key: string]: {
-    }
+    [entityId: string]: Entity;
 }
 
 export interface GameState {

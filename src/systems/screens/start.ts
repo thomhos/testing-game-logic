@@ -1,6 +1,6 @@
-import type { GameScreens, GameScreenTransitionDurations } from '../../core/types';
+import type { GameScreens, GameScreenTransitionDurations } from '../../core';
 import { type System } from '../types';
-import { inactive } from './screen-utils';
+import { inactive } from './_utils';
 
 export const startScreenTransitionDurations: GameScreenTransitionDurations['start'] = {
     in: 500,
